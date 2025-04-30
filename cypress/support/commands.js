@@ -55,3 +55,17 @@ Cypress.Commands.add('login', (email, password) => {
     });
   });
 });
+
+
+Cypress.Commands.add('login', (email, password) => {
+  cy.visit('/login'); 
+  
+  cy.get('#email').type(email); 
+  cy.get('#password').type(password, { sensitive: true }); 
+  
+  cy.get('#login-button').click(); /
+  
+ 
+  cy.url().should('include', '/dashboard');
+  cy.get('.welcome-message').should('contain', 'Welcome');
+});
