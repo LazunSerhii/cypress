@@ -23,3 +23,22 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('createExpense', (carId, expenseData) => {
+    const authToken = window.localStorage.getItem('authToken');
+    return cy.request({
+      method: 'POST',
+      url: 'https://qauto.forstudy.space/api/expenses',
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: {
+        carId,
+        reportedAt: expenseData.reportedAt,  // "2025-04-30"
+        mileage: expenseData.mileage,       // 150
+        liters: expenseData.liters,         // 10
+        totalCost: expenseData.totalCost,    // 50
+      },
+    });
+  });
