@@ -1,6 +1,6 @@
 describe('Registration Tests', () => {
   beforeEach(() => {
-    cy.visit('/registration'); // Переконайтеся, що цей шлях правильний
+    cy.visit('/registration'); 
   });
 
   it('should display registration form', () => {
@@ -15,16 +15,16 @@ describe('Registration Tests', () => {
 
   describe('Authentication Tests', () => {
     it('should login with custom command', () => {
-      // Перед тестом логіна краще виконати логаут, якщо така команда є
+      
       cy.logout(); 
-      cy.login('Lazunsm@gmail.com', 'Test1234'); // Додайте параметри, якщо команда їх вимагає
+      cy.login('Lazunsm@gmail.com', 'Test1234'); 
       cy.get('.welcome-message').should('contain', 'Welcome, Sergii');
     });
   });
 
   describe('Register Button Tests', () => {
     beforeEach(() => {
-      // Мокуємо API перед кожним тестом у цьому блоці
+      
       cy.intercept('POST', '/api/register', {
         statusCode: 200,
         body: { 
@@ -57,8 +57,8 @@ describe('Registration Tests', () => {
         });
       });
       
-      // Перевірка перенаправлення після реєстрації
-      cy.url().should('include', '/dashboard'); // Замініть на очікуваний URL
+      
+      cy.url().should('include', '/dashboard'); 
     });
 
     it('should show error when passwords do not match', () => {
@@ -68,7 +68,7 @@ describe('Registration Tests', () => {
       cy.get('#register-button').click();
       
       cy.get('.error-message').should('contain', 'Passwords do not match');
-      // Або перевірка, що запит не відправлявся
+      
       cy.get('@registerRequest.all').should('have.length', 0);
     });
   });
