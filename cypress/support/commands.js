@@ -42,3 +42,16 @@ Cypress.Commands.add('createExpense', (carId, expenseData) => {
       },
     });
   });
+
+Cypress.Commands.add('login', (email, password) => {
+  cy.session([email, password], () => {
+    cy.request({
+      method: 'POST',
+      url: 'https://qauto.forstudy.space/api/auth/signin',
+      body: { email, password },
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      window.localStorage.setItem('authToken', response.body.data.token);
+    });
+  });
+});
