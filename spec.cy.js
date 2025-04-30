@@ -1,21 +1,3 @@
-Cypress.Commands.add('createExpense', (carId, expenseData) => {
-    const authToken = window.localStorage.getItem('authToken');
-    return cy.request({
-      method: 'POST',
-      url: 'https://qauto.forstudy.space/api/expenses',
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: {
-        carId,
-        reportedAt: expenseData.reportedAt,  // "2025-04-30"
-        mileage: expenseData.mileage,       // 150
-        liters: expenseData.liters,         // 10
-        totalCost: expenseData.totalCost,    // 50
-      },
-    });
-  });
 
   describe('Car and Expense Tests', () => {
     let carId;
@@ -27,7 +9,7 @@ Cypress.Commands.add('createExpense', (carId, expenseData) => {
     it('Creates a car and saves its ID', () => {
       cy.intercept('POST', 'https://qauto.forstudy.space/api/cars').as('createCar');
   
-      // UI-кроки для створення машини (адаптуйте селектори)
+      
       cy.visit('https://qauto.forstudy.space/garage');
       cy.get('button').contains('Add car').click();
       cy.get('#brand').select('BMW');
@@ -35,7 +17,7 @@ Cypress.Commands.add('createExpense', (carId, expenseData) => {
       cy.get('#mileage').type('100');
       cy.get('button').contains('Save').click();
   
-      // Чекаємо відповіді та зберігаємо ID
+      
       cy.wait('@createCar').then((interception) => {
         expect(interception.response.statusCode).to.eq(201);
         carId = interception.response.body.data.id;
@@ -75,7 +57,7 @@ Cypress.Commands.add('createExpense', (carId, expenseData) => {
     it('Verifies the expense in UI', () => {
       cy.get('@carId').then((id) => {
         cy.visit(`https://qauto.forstudy.space/garage/${id}`);
-        cy.contains('50 USD').should('exist'); // Адаптуйте селектор
+        cy.contains('50 USD').should('exist'); 
       });
     });
   });
